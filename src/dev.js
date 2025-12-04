@@ -35,11 +35,6 @@ module.exports = async (ctx) => {
 		build.createDevConfig(importConfig)
 	)
 
-	fs.writeFileSync(
-		"configDev.json",
-		JSON.stringify(config, null, 2)
-	);
-
 	const server = await createServer(config);
 	await server.listen();
 

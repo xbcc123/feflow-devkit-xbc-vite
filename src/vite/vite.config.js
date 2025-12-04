@@ -2,8 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue2';
 import vueJsx from '@vitejs/plugin-vue2-jsx';
 import { resolve } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);

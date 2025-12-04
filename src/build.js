@@ -43,10 +43,6 @@ function getConfig(options, env) {
 export async function run(ctx, options) {
 	importConfig = getConfig(ctx.projectConfig, options.env);
 	config = mergeConfig(currentConfig, builder.createProdConfig(importConfig));
-	fs.writeFileSync(
-		"config.json",
-		JSON.stringify(config, null, 2)
-	);
 	try {
 		await viteBuild(config);
 		console.log(chalk.cyan("  Build complete.\n"));

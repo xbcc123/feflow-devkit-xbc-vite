@@ -60,23 +60,21 @@ class Builder {
 		const mixConfig = deepCopy(baseConfig);
 		let mixPlugins = [];
 
-		// 设置环境变量
-		mixPlugins.push(this.setDefinePlugin(options.envs, options.currentEnv));
-
 		// 是否启动打包性能分析
 		if (options.hasAnalyzer) {
 			mixPlugins.push(this.setBundleAnalyzerPlugin(options.analyzer));
 		}
 
-		// mixConfig.resolve = {
-		// 	extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
-		// 	alias: Object.assign({
-		// 		"vue": path.resolve(projectRoot, "node_modules/vue/dist/vue.esm.js"),
-		// 	}, this.setAlias(options.alias)),
-		// };
-		// mixConfig.plugins = mixPlugins;
+		mixConfig.plugins = mixPlugins;
 		mixConfig.css = this.setCssConfig(options.isModule);
-		mixConfig.define = {};
+
+		// 设置环境变量
+		if (options.envs && options.currentEnv) {
+			console.log('🔧 Setting environment variables for:', options.currentEnv);
+			mixConfig.define = options.envs[options.currentEnv].envObj;
+		} else {
+			mixConfig.define = {};
+		}
 
 		return mixConfig;
 	}
@@ -136,21 +134,6 @@ class Builder {
 				port: 1234,
 			}
 		)
-	}
-
-	// 设置环境变量插件
-	setDefinePlugin(envs, currentEnv) {
-		if (envs && currentEnv) {
-			return {
-				name: 'define-env',
-				config: () => ({
-					define: {
-						'process.env': envs[currentEnv].envObj,
-					},
-				}),
-			};
-		}
-		return null;
 	}
 }
 
